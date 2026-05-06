@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header">
+    <h1>Template & Kebijakan</h1>
+</section>
+<section class="two-column">
+    <div class="panel">
+        <h2>Upload Template Surat</h2>
+        <form method="post" enctype="multipart/form-data" class="form-grid">
+            {% csrf_token %}
+            {{ template_form.as_p }}
+            <button class="button primary" type="submit">Simpan Template</button>
+        </form>
+        <div class="list-block">
+            {% for item in templates %}
+                <div class="list-item">{{ item.name }} | {{ item.language }}</div>
+            {% empty %}
+                <div class="list-item">Belum ada template.</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="panel">
+        <h2>Upload Kebijakan</h2>
+        <form method="post" class="form-grid">
+            {% csrf_token %}
+            {{ policy_form.as_p }}
+            <button class="button primary" type="submit" name="save_policy" value="1">Simpan Kebijakan</button>
+        </form>
+        <div class="list-block">
+            {% for item in policies %}
+                <div class="list-item">{{ item.title }} | {{ item.language }}</div>
+            {% empty %}
+                <div class="list-item">Belum ada kebijakan.</div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header">
+    <h1>Buat Permohonan Surat</h1>
+</section>
+<section class="panel form-panel">
+    <form method="post" class="form-grid">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button primary" type="submit">Submit</button>
+    </form>
+</section>
+{% endblock %}

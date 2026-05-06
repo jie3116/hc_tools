@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header action-row">
+    <div>
+        <h1>Data Karyawan</h1>
+        <p>Kelola master data karyawan individual atau melalui CSV.</p>
+    </div>
+    <a class="button primary" href="/employees/new/">Tambah Karyawan</a>
+</section>
+<section class="panel">
+    <form method="post" action="/employees/import/" enctype="multipart/form-data" class="inline-form">
+        {% csrf_token %}
+        {{ csv_form.file }}
+        <button class="button" type="submit">Import CSV</button>
+    </form>
+</section>
+<section class="panel">
+    <table class="data-table">
+        <thead><tr><th>Kode</th><th>Nama</th><th>Departemen</th><th>Jabatan</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+        {% for employee in employees %}
+            <tr>
+                <td>{{ employee.employee_code }}</td>
+                <td>{{ employee.full_name }}</td>
+                <td>{{ employee.department }}</td>
+                <td>{{ employee.position }}</td>
+                <td>{{ employee.employment_status }}</td>
+                <td class="actions">
+                    <a class="button small" href="/employees/{{ employee.id }}/edit/">Edit</a>
+                    <form method="post" action="/employees/{{ employee.id }}/delete/">
+                        {% csrf_token %}
+                        <button class="button small danger" type="submit">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

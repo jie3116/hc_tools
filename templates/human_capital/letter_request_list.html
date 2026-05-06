@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header action-row">
+    <div>
+        <h1>Permohonan Surat Keterangan Kerja</h1>
+        <p>Alur submit karyawan, review admin, approval, dan download dokumen.</p>
+    </div>
+    <a class="button primary" href="/letters/new/">Buat Permohonan</a>
+</section>
+<section class="stack-list">
+    {% for item in requests %}
+    <div class="panel">
+        <div class="request-head">
+            <strong>{{ item.request_no }}</strong>
+            <span class="badge">{{ item.status }}</span>
+        </div>
+        <div class="meta-row">{{ item.employee.full_name }} | {{ item.employee.employee_code }} | {{ item.purpose }}</div>
+        <div class="meta-row">Tujuan: {{ item.recipient_name }} | Bahasa: {{ item.language }}</div>
+        {% if item.admin_notes %}<div class="meta-row">Admin notes: {{ item.admin_notes }}</div>{% endif %}
+        {% if item.approver_notes %}<div class="meta-row">Approver notes: {{ item.approver_notes }}</div>{% endif %}
+        {% if item.generated_file %}
+            <div class="meta-row"><a class="button small" href="{{ item.generated_file.url }}">Download Dokumen</a></div>
+        {% endif %}
+        {% if item.status == "submitted" %}
+        <form method="post" action="/letters/{{ item.id }}/admin-review/" class="review-form">
+            {% csrf_token %}
+            <textarea name="admin_notes" rows="3" placeholder="Catatan admin"></textarea>
+            <div class="actions">
+                <button class="button primary small" type="submit" name="decision" value="approve">Loloskan ke Approver</button>
+                <button class="button small danger" type="submit" name="decision" value="reject">Tolak</button>
+            </div>
+        </form>
+        {% endif %}
+        {% if item.status == "pending_approval" %}
+        <form method="post" action="/letters/{{ item.id }}/approver-review/" class="review-form">
+            {% csrf_token %}
+            <textarea name="approver_notes" rows="3" placeholder="Catatan approver"></textarea>
+            <div class="actions">
+                <button class="button primary small" type="submit" name="decision" value="approve">Approve</button>
+                <button class="button small danger" type="submit" name="decision" value="reject">Reject</button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+    {% empty %}
+    <div class="panel">Belum ada permohonan.</div>
+    {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header">
+    <h1>Chatbot Kebijakan HC</h1>
+    <p>RAG sederhana berbasis dokumen kebijakan yang tersimpan di sistem.</p>
+</section>
+<section class="panel form-panel">
+    <form method="post">
+        {% csrf_token %}
+        <label for="question">Pertanyaan</label>
+        <textarea id="question" name="question" rows="5">{{ question }}</textarea>
+        <button class="button primary" type="submit">Cari Jawaban</button>
+    </form>
+</section>
+{% if answer %}
+<section class="panel">
+    <h2>Jawaban</h2>
+    <pre class="answer-block">{{ answer }}</pre>
+</section>
+<section class="panel">
+    <h2>Referensi</h2>
+    {% for item in references %}
+        <div class="reference-item">
+            <strong>{{ item.title }}</strong>
+            <div>{{ item.source_name }} | {{ item.language }}</div>
+            <p>{{ item.content }}</p>
+        </div>
+    {% endfor %}
+</section>
+{% endif %}
+{% endblock %}

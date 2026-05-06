@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment files
+.env
+.env.local
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/generated/
+media/seed/
+
+# Logs
+*.log
+
+# Test and coverage
+.coverage
+.pytest_cache/
+htmlcov/
+
+# IDE
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Flutter
+flutter_hc_app/.dart_tool/
+flutter_hc_app/.flutter-plugins
+flutter_hc_app/.flutter-plugins-dependencies
+flutter_hc_app/.metadata
+flutter_hc_app/build/
+flutter_hc_app/.packages
+flutter_hc_app/pubspec.lock
+
+# Flutter platform folders generated locally
+flutter_hc_app/android/
+flutter_hc_app/ios/
+flutter_hc_app/linux/
+flutter_hc_app/macos/
+flutter_hc_app/windows/
+flutter_hc_app/web/

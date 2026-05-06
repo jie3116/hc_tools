@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-header">
+    <h1>Dashboard</h1>
+    <p>Portal internal untuk kebijakan HC, pengelolaan data karyawan, dan surat keterangan kerja.</p>
+</section>
+<section class="stats-grid">
+    <div class="stat-card"><span>Karyawan</span><strong>{{ employee_count }}</strong></div>
+    <div class="stat-card"><span>Kebijakan</span><strong>{{ policy_count }}</strong></div>
+    <div class="stat-card"><span>Template</span><strong>{{ template_count }}</strong></div>
+    <div class="stat-card"><span>Request</span><strong>{{ request_count }}</strong></div>
+</section>
+<section class="panel">
+    <h2>Status Permohonan</h2>
+    <div class="status-grid">
+        <div>Submitted: {{ status_counts.submitted|default:0 }}</div>
+        <div>Pending approval: {{ status_counts.pending_approval|default:0 }}</div>
+        <div>Approved: {{ status_counts.approved|default:0 }}</div>
+        <div>Rejected: {{ status_counts.rejected|default:0 }}</div>
+    </div>
+</section>
+<section class="panel">
+    <h2>Permohonan Terbaru</h2>
+    <table class="data-table">
+        <thead><tr><th>No</th><th>Karyawan</th><th>Template</th><th>Status</th></tr></thead>
+        <tbody>
+        {% for item in recent_requests %}
+            <tr>
+                <td>{{ item.request_no }}</td>
+                <td>{{ item.employee.full_name }}</td>
+                <td>{{ item.template.name|default:"-" }}</td>
+                <td>{{ item.status }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">Belum ada permohonan.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
